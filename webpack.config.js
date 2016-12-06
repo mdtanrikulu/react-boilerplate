@@ -1,32 +1,36 @@
 var path = require('path');
+var webpack = require('webpack');
 
-var config = {
-    context: path.join(__dirname, 'src'),
+module.exports = {
+    devtool: 'cheap-module-eval-source-map',
     entry: [
-        './main.js',
+        'webpack-hot-middleware/client',
+        './src/main'
     ],
     output: {
-        path: path.join(__dirname, 'www'),
+        path: path.join(__dirname, 'dist'),
         filename: 'bundle.js',
+        publicPath: '/static/'
     },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin()
+    ],
     module: {
-        loaders: [
+        loaders: [{
+            test: /\.js$/,
+            loaders: ['react-hot', 'babel'],
+            include: path.join(__dirname, 'src')
+        },
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loaders: ['babel'],
+                // Test expects a RegExp! Note the slashes!
+                test: /\.scss$/,
+                loaders: ["style-loader", "css-loader", "sass-loader"],
+                // Include accepts either a path or an array of paths.
+                include: path.join(__dirname, 'src/scss')
             },
-        ],
-    },
-    resolveLoader: {
-        root: [
-            path.join(__dirname, 'node_modules'),
-        ],
-    },
-    resolve: {
-        root: [
-            path.join(__dirname, 'node_modules'),
-        ],
-    },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
+            }]
+    }
 };
-module.exports = config;

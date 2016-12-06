@@ -1,25 +1,25 @@
-var express = require('express');
-var webpackDevMiddleware = require('webpack-dev-middleware');
+var path = require('path');
 var webpack = require('webpack');
-var webpackConfig = require('./webpack.config.js');
+var express = require('express');
+var config = require('./webpack.config');
+
 var app = express();
+var compiler = webpack(config);
 
-var compiler = webpack(webpackConfig);
-
-app.use(express.static(__dirname + '/www'));
-
-app.use(webpackDevMiddleware(compiler, {
-    hot: true,
-    filename: 'bundle.js',
-    publicPath: '/',
-    stats: {
-        colors: true,
-    },
-    historyApiFallback: true,
+app.use(require('webpack-dev-middleware')(compiler, {
+    publicPath: config.output.publicPath
 }));
 
-var server = app.listen(3000, function() {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log('Example app listening at http://%s:%s', host, port);
+app.use(require('webpack-hot-middleware')(compiler));
+
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+app.listen(3000, function(err) {
+    if (err) {
+        return console.error(err);
+    }
+
+    console.log('Listening at http://localhost:3000/');
+})
