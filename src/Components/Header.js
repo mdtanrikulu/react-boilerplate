@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
+import SearchBox from './SearchBox';
 
 
 export default class Header extends Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    onClick() {
+        document.body.classList.add('modal-active');
+        this.props.actions.signInClick(true)
+    }
 
     render() {
         return (
@@ -13,13 +23,11 @@ export default class Header extends Component {
                   </div>
                 </div>
                 <div className="col-sm-3">
-                  <div className="box searchbox">
-                    <input/>
-                  </div>
+                  <SearchBox actions={ this.props.actions } />
                 </div>
                 <div className="col-sm-2 text-right">
                   <div className="box">
-                    <span>Sign in</span>
+                    <span onClick={ this.onClick.bind(this) }>Sign In</span>
                   </div>
                 </div>
               </div>

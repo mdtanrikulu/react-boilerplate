@@ -1,15 +1,10 @@
 .header {
     max-width: 100%;
-    background: #2980b9;
+    background: $blue;
     padding: 0 20px;
-    .searchbox {
-        input {
-            font-size: 20pt;
-            outline: none;
-            background: rgba(255, 255, 255, 0.6);
-            border: 0;
-            border-radius: 2px;
-            padding: 5px;
+    .box {
+        span {
+            cursor: pointer
         }
     }
 }

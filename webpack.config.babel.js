@@ -18,7 +18,7 @@ module.exports = {
     module: {
         loaders: [{
             test: /\.js$/,
-            loaders: ['react-hot', 'babel'],
+            loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'],
             include: path.join(__dirname, 'src')
         },
             {
@@ -31,6 +31,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: "style-loader!css-loader"
+            },
+            {
+                test: /\.(eot|woff|woff2|svg|ttf|png)([\?]?.*)$/,
+                loader: "file-loader"
             }]
     }
 };

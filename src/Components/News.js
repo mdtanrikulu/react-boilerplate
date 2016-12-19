@@ -1,20 +1,33 @@
 import React, { Component } from 'react';
 
 export default class News extends Component {
-    constructor() {
-        super();
-        this.state = {
-            loading: true
-        }
+
+    constructor(props) {
+        super(props);
+        this.showNews = this.showNews.bind(this)
+
+        this.stateTimeout = setTimeout(() => {
+            this.showNews()
+        }, 500)
+    }
+
+    state = {
+        loading: true
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.stateTimeout);
     }
 
     showNews() {
+        this.props.actions.asyncLoad()
         this.setState({
-            loading: false
+            loading: this.props.status
         })
     }
 
     loadContent() {
+        const {data, status} = this.props
         if (this.state.loading) {
             return <div>
                      <div className="animated-background facebook">
@@ -50,15 +63,15 @@ export default class News extends Component {
                      </div>
                    </div>
         } else {
-            return this.props.data.map(function(item) {
-                return <div className="news-content">
-                         <h2>Sub-title</h2>
+            return data.map(function(item) {
+                return <div className="news-content" key={ item.id }>
+                         <h2>{ item.title }</h2>
                          <div className="row">
                            <div className="col-sm-3">
                              <img src="http://placehold.it/100x100" />
                            </div>
                            <div className="col-sm-9">
-                             <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+                             <span>{ item.content }</span>
                            </div>
                          </div>
                        </div>
@@ -68,9 +81,6 @@ export default class News extends Component {
     }
 
     render() {
-        setTimeout(() => {
-            this.showNews()
-        }, 3000);
         return (
             <div className="news">
               { this.loadContent() }
