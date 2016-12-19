@@ -1,9 +1,3 @@
-export const changeText = () => {
-    return {
-        type: 'CHANGE_TEXT'
-    }
-}
-
 export const asyncLoad = () => {
     return {
         type: 'ASYNC_LOAD'
