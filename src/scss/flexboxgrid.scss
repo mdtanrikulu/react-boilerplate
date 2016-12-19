@@ -1,0 +1,172 @@
+$total-columns: 12;
+$column-types: ('xs', 'sm', 'md', 'lg');
+$device-measures: ('0em', '48em', '64em', '75em');
+$container-measures: ('1rem', '49rem', '65rem', '76rem');
+.container,
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto
+}
+
+.container-fluid {
+    padding-right: 2rem;
+    padding-left: 2rem
+}
+
+.row {
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -.5rem;
+    margin-left: -.5rem;
+    &.reverse {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+        flex-direction: row-reverse
+    }
+}
+
+.col {
+    &.reverse {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+        flex-direction: column-reverse
+    }
+}
+
+@mixin col-common {
+    box-sizing: border-box;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding-right: .5rem;
+    padding-left: .5rem
+}
+
+@mixin col {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%
+}
+
+@mixin col-content($col-list, $item) {
+    @for $i from 0 through $total-columns {
+        @if($i > 0) {
+            $col-list: append($col-list, unquote(".col-#{$item}-#{$i}"), comma);
+        }
+        @else {
+            $col-list: append($col-list, unquote(".col-#{$item}"), comma);
+        }
+        $col-list: append($col-list, unquote(".col-#{$item}-offset-#{$i}"), comma);
+    }
+    #{$col-list} {
+        @include col-common;
+    }
+    @for $i from 0 through $total-columns {
+        @if($i < 1) {
+            .col-#{$item} {
+                @include col;
+            }
+        }
+        @else {
+            $w: (1/$total-columns)*$i;
+            .col-#{$item}-#{$i} {
+                -ms-flex-preferred-size: $w * 100%;
+                flex-basis: $w * 100%;
+                max-width: $w * 100%
+            }
+        }
+    }
+    @for $i from 0 through $total-columns - 1 {
+        $w: (1/$total-columns)*$i;
+        .col-#{$item}-offset-#{$i} {
+            margin-left: $w * 100%
+        }
+    }
+    .start-#{$item} {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        text-align: start
+    }
+    .center-#{$item} {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center
+    }
+    .end-#{$item} {
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        text-align: end
+    }
+    .top-#{$item} {
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+        align-items: flex-start
+    }
+    .middle-#{$item} {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center
+    }
+    .bottom-#{$item} {
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+        align-items: flex-end
+    }
+    .around-#{$item} {
+        -ms-flex-pack: distribute;
+        justify-content: space-around
+    }
+    .between-#{$item} {
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between
+    }
+    .first-#{$item} {
+        -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+        order: -1
+    }
+    .last-#{$item} {
+        -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+        order: 1
+    }
+}
+
+@mixin col-x-list {
+    @each $item in $column-types {
+        $col-list: null;
+        @if(index($column-types, $item) > 1) {
+            @media only screen and (min-width: nth($device-measures, index($column-types, $item))) {
+                .container {
+                    width: nth($container-measures, index($column-types, $item))
+                }
+                @include col-content($col-list, $item)
+            }
+        }
+        @else {
+            @include col-content($col-list, $item)
+        }
+    }
+}
+
+@include col-x-list;
