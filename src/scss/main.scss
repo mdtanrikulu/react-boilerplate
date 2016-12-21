@@ -11,6 +11,7 @@
 @import 'modal-sign-in';
 html {
     padding: 0;
+    overflow-y: scroll;
 }
 
 html,
@@ -26,6 +27,18 @@ body {
     &.modal-active {
         overflow: hidden;
     }
+}
+
+-webkit-scrollbar {
+    width: 5px;
+}
+
+-webkit-scrollbar-track {
+    background: #ddd;
+}
+
+-webkit-scrollbar-thumb {
+    background: #666;
 }
 
 h1,

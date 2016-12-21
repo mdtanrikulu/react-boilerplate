@@ -1,4 +1,11 @@
 .searchbox {
+    position: absolute;
+    top: 4;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 0;
+    width: 286px;
     form {
         width: 220px;
         position: relative;
