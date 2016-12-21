@@ -78,7 +78,8 @@ class MainFragment extends React.Component {
                     </div>
                   </div> }
               </div>
-              <ModalSignIn signIn={ signIn } actions={ actions } />
+              { signIn !== null &&
+                <ModalSignIn signIn={ signIn } actions={ actions } /> }
             </div>
             );
     }
