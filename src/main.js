@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import { AppContainer } from 'react-hot-loader';
 
 import App from './Container/App'
 import reducer from './Reducers/index.js'
@@ -13,7 +12,7 @@ let store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window._
 document.addEventListener('DOMContentLoaded', function() {
     render(
         <Provider store={ store }>
-          <App/>
+          <App store={ store } />
         </Provider>,
         document.getElementById('mount')
     );
