@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+import { AppContainer } from 'react-hot-loader';
 
 import App from './Container/App'
 import reducer from './Reducers/index.js'

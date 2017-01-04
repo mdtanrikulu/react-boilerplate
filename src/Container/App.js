@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Route, Link, browserHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import Header from '../Components/Header';
 import MainFragment from '../Components/MainFragment';
 import Footer from '../Components/Footer';
@@ -9,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../Actions'
 
-
+let history = null;
 const routes = (
 <Route component={ App }>
   <Route path="/" component={ MainFragment } />
@@ -22,8 +23,9 @@ class App extends Component {
         actions: React.PropTypes.object.isRequired
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        history = syncHistoryWithStore(browserHistory, this.props.store)
     }
 
     render() {
@@ -32,7 +34,7 @@ class App extends Component {
         return (
             <div>
               <Header actions={ actions } />
-              <Router history={ browserHistory }>
+              <Router history={ history }>
                 { routes }
               </Router>
               <Footer/>
