@@ -1,5 +1,7 @@
 # React-Route-Redux-HMR-Boilerplate
 ---
+
+[![Circle CI](https://circleci.com/gh/mdtanrikulu/react-boilerplate/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/mdtanrikulu/react-boilerplate/)
  
 Welcome. 
 
