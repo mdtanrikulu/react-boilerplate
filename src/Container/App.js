@@ -10,7 +10,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../Actions'
 
-let history = null;
 const routes = (
 <Route component={ App }>
   <Route path="/" component={ MainFragment } />
@@ -25,12 +24,11 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        history = syncHistoryWithStore(browserHistory, this.props.store)
     }
 
     render() {
 
-        const {actions, status, search} = this.props;
+        const {actions, status, search, history} = this.props;
         return (
             <div>
               <Header actions={ actions } />
@@ -39,7 +37,7 @@ class App extends Component {
               </Router>
               <Footer/>
             </div>
-            );
+        );
     }
 }
 
